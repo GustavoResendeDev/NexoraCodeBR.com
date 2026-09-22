@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+@theme {
+  /* Cores personalizadas */
+  --color-obsidian-950: #030508;
+  --color-obsidian-900: #080B10;
+  --color-obsidian-800: #0D1117;
+  --color-obsidian-700: #161B22;
+  --color-obsidian-600: #21262D;
+
+  --color-cyan-glow: #00E5FF;
+  --color-cyan-electric: #00D2FF;
+  --color-cyan-deep: #0088A8;
+
+  /* Fontes personalizadas */
+  --font-syne: "Syne", sans-serif;
+  --font-space: "Space Grotesk", sans-serif;
+  --font-sans: "Inter", sans-serif;
+
+  /* Animações personalizadas */
+  --animate-pulse-glow: pulseGlow 3s infinite alternate;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-scanline: scanline 8s linear infinite;
+  --animate-spin-slow: spin 20s linear infinite;
+}
+
+/* Keyframes das animações */
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 15px rgba(0, 229, 255, 0.2); }
+  100% { box-shadow: 0 0 35px rgba(0, 229, 255, 0.6); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(1000%); }
+}

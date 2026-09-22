@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXORA SOFTWARE | Engenharia do Futuro</title>
+   
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Ícones FontAwesome e Lucide -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Java Script -->
+    <script src="js/script.js" defer></script>
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="css/tailwind.css">
+
+</head>
+<body class="bg-obsidian-950 text-slate-200 font-sans selection:bg-cyan-glow selection:text-obsidian-950 overflow-x-hidden relative">
+
+    <!-- Tela de Fundo para Partículas e Efeito de Grade -->
+    <canvas id="bg-canvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
+
+    <!-- Navegação do Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 glass-panel border-b border-cyan-glow/10 px-4 lg:px-12 py-4">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <!-- NEXORA Logo Marca NX -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="relative w-10 h-10 flex items-center justify-center">
+                    <!-- Recriação Dinâmica do Logotipo NX (SVG) -->
+                    <svg viewBox="0 0 100 100" class="w-10 h-10 transform transition-transform group-hover:scale-105 duration-300">
+                        <defs>
+                            <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#00E5FF" />
+                                <stop offset="100%" stop-color="#0088A8" />
+                            </linearGradient>
+                            <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                                <feGaussianBlur stdDeviation="4" result="blur" />
+                                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                            </filter>
+                        </defs>
+                        <!-- Linhas de circuito geométricas entrelaçadas do NX, combinando com o logotipo carregado -->
+                        <path d="M20,20 L20,80 L38,80 L38,40 L62,80 L80,80 L80,20 L62,20 L62,60 L38,20 Z" fill="none" stroke="url(#cyanGrad)" stroke-width="7" stroke-linejoin="round" filter="url(#glow)"/>
+                        <path d="M42,50 L58,50" stroke="#00E5FF" stroke-width="6" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-syne font-bold text-xl tracking-wider text-white flex items-center gap-1">
+                        NEXORA </span>
+                    <span class="font-space text-[9px] tracking-widest text-cyan-glow/70 uppercase -mt-1">INOVA SIMPLES (I.S.)</span>
+                </div>
+            </a>
+
+            <!-- Links de navegação para desktop -->
+            <nav class="hidden md:flex items-center gap-8 font-space text-sm tracking-wide">
+                <a href="#inicio" class="text-slate-300 hover:text-cyan-glow transition-colors">Início</a>
+                <a href="#servicos" class="text-slate-300 hover:text-cyan-glow transition-colors">Serviços</a>
+                <a href="#catalogo" class="text-slate-300 hover:text-cyan-glow transition-colors">Catálogo</a>
+                <a href="#orcamento" class="text-slate-300 hover:text-cyan-glow transition-colors">Simulador</a>
+                <a href="#diferenciais" class="text-slate-300 hover:text-cyan-glow transition-colors">Diferenciais</a>
+                <a href="#faq" class="text-slate-300 hover:text-cyan-glow transition-colors">FAQ</a>
+            </nav>
+
+            <!-- Ações -->
+            <div class="flex items-center gap-4">
+                <a href="#orcamento" class="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-cyan-glow/10 text-cyan-glow font-space font-medium text-sm border border-cyan-glow/40 hover:bg-cyan-glow hover:text-obsidian-950 transition-all duration-300 box-glow">
+                    <i class="fa-solid fa-bolt"></i>
+                    <span>Orçamento Rápido</span>
+                </a>
+                
+                <!-- botoes menu mobile -->
+                <button id="mobile-menu-btn" class="md:hidden text-2xl text-slate-300 hover:text-cyan-glow focus:outline-none">
+                    <i class="fa-solid fa-bars-staggered"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Menu lateral para dispositivos móveis -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pt-4 border-t border-cyan-glow/20 flex flex-col gap-4 font-space text-sm">
+            <a href="#inicio" class="mobile-link text-slate-300 hover:text-cyan-glow py-1">Início</a>
+            <a href="#servicos" class="mobile-link text-slate-300 hover:text-cyan-glow py-1">Serviços</a>
+            <a href="#catalogo" class="mobile-link text-slate-300 hover:text-cyan-glow py-1">Catálogo de Modelos</a>
+            <a href="#orcamento" class="mobile-link text-slate-300 hover:text-cyan-glow py-1">Simulador de Custos</a>
+            <a href="#diferenciais" class="mobile-link text-slate-300 hover:text-cyan-glow py-1">Diferenciais</a>
+            <a href="#faq" class="mobile-link text-slate-300 hover:text-cyan-glow py-1">Perguntas Frequentes</a>
+            <a href="#orcamento" class="mobile-link px-4 py-2 text-center rounded bg-cyan-glow text-obsidian-950 font-bold">Solicitar Proposta</a>
+        </div>
+    </header>
+
+    <main class="relative z-10">
+
+    <!-- Seção de Destaque -->
+    <section id="inicio" class="min-h-screen pt-32 pb-20 px-4 lg:px-12 flex items-center justify-center bg-grid-pattern relative overflow-hidden">
+            <!-- Esferas de fundo brilhantes -->
+            <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-glow/10 rounded-full blur-[140px] pointer-events-none"></div>
+
+            <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Conteúdo de texto à esquerda -->
+                <div class="lg:col-span-7 flex flex-col items-start space-y-6 text-left">
+                    
+                    <!-- Selo de Status de Tecnologia -->
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-glow/10 border border-cyan-glow/30 text-cyan-glow text-xs font-space tracking-wide">
+                        <span class="w-2 h-2 rounded-full bg-cyan-glow animate-ping"></span>
+                        <span>SOLUÇÕES TECNOLÓGICAS DE ALTA PERFORMANCE</span>
+                    </div>
+
+                    <!-- Manchete Principal -->
+                    <h1 class="font-syne text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white leading-[1.1] tracking-tight">
+                        ENGENHARIA <br/>
+                        <span class="bg-gradient-to-r from-cyan-glow via-cyan-electric to-blue-500 bg-clip-text text-transparent text-glow">DO FUTURO</span>
+                    </h1>
+
+                    <!-- Subtitulo -->
+                    <p class="font-sans text-slate-400 text-base sm:text-lg max-w-2xl font-normal leading-relaxed">
+                        Eleve o patamar do seu negocio com a NEXORA! </br>
+                        Desenvolvimento de Websites Ultramodernos, Softwares Sob Medida, Cardápios Digitais com QR Code e Suporte Técnico 24/7.
+                    </p>
+
+                    <!-- CTAs -->
+                    <div class="flex flex-wrap items-center gap-4 pt-2 w-full sm:w-auto">
+                        <a href="#catalogo" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-cyan-glow text-obsidian-950 font-syne font-bold text-base flex items-center justify-center gap-3 hover:bg-white hover:shadow-[0_0_30px_rgba(0,229,255,0.8)] transition-all duration-300">
+                            <span>EXPLORAR MODELOS</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                        <a href="https://wa.me/message/OCB7LETXQXXVC1" target="_blank" class="w-full sm:w-auto px-8 py-4 rounded-xl glass-panel text-white font-syne font-semibold text-base flex items-center justify-center gap-3 hover:border-cyan-glow/80 hover:bg-cyan-glow/10 transition-all duration-300">
+                            <i class="fa-brands fa-whatsapp text-emerald-400 text-xl"></i>
+                            <span>Falar no WhatsApp</span>
+                        </a>
+                    </div>
+
+                    <!-- Métricas / Contadores -->
+                    <div class="grid grid-cols-3 gap-6 pt-8 w-full border-t border-cyan-glow/10">
+                        <div>
+                            <span class="font-space font-bold text-2xl sm:text-3xl text-white block text-glow">+17</span>
+                            <span class="text-xs text-slate-400 font-sans">Projetos Entregues</span>
+                        </div>
+                        <div>
+                            <span class="font-space font-bold text-2xl sm:text-3xl text-white block text-glow">99.9%</span>
+                            <span class="text-xs text-slate-400 font-sans">Uptime Garantido</span>
+                        </div>
+                        <div>
+                            <span class="font-space font-bold text-2xl sm:text-3xl text-white block text-glow">24/7</span>
+                            <span class="text-xs text-slate-400 font-sans">Suporte Técnico</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Cenário de Mockup Flutuante Visual à Direita -->
+                <div class="lg:col-span-5 relative flex justify-center items-center">
+                    <!-- Anel traseiro luminoso -->
+                    <div class="absolute w-72 h-72 sm:w-96 sm:h-96 rounded-full border border-cyan-glow/20 animate-spin-slow"></div>
+                    <div class="absolute w-60 h-60 sm:w-80 sm:h-80 rounded-full border border-dashed border-cyan-glow/30 animate-pulse"></div>
+
+                    <!-- Expositor de Cartões Holográficos -->
+                    <div class="relative w-full max-w-sm glass-panel p-6 rounded-2xl animate-float box-glow border-cyan-glow/40">
+                        <!-- Cabeçalho Principal -->
+                        <div class="flex items-center justify-between border-b border-cyan-glow/20 pb-4 mb-4">
+                            <div class="flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-full bg-red-500/80 inline-block"></span>
+                                <span class="w-3 h-3 rounded-full bg-yellow-500/80 inline-block"></span>
+                                <span class="w-3 h-3 rounded-full bg-emerald-500/80 inline-block"></span>
+                            </div>
+                            <span class="text-[10px] font-space text-cyan-glow">NEXORA_ENGINE_v4.2</span>
+                        </div>
+
+                        <!-- Maquete de Conteúdo de Cartão -->
+                        <div class="space-y-4 font-space text-xs">
+                            <div class="p-3 bg-obsidian-950/80 rounded-lg border border-cyan-glow/20 flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded bg-cyan-glow/20 flex items-center justify-center text-cyan-glow">
+                                        <i class="fa-solid fa-qrcode text-sm"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-white font-semibold">Cardápio QR Code</div>
+                                        <div class="text-[10px] text-slate-400">Garçons & Pedidos Real-time</div>
+                                    </div>
+                                </div>
+                                <span class="text-emerald-400 text-[10px]">● Ativo</span>
+                            </div>
+
+                            <div class="p-3 bg-obsidian-950/80 rounded-lg border border-cyan-glow/20 flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded bg-cyan-glow/20 flex items-center justify-center text-cyan-glow">
+                                        <i class="fa-solid fa-laptop-code text-sm"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-white font-semibold">Website Institucional</div>
+                                        <div class="text-[10px] text-slate-400">SEO: 1ª Posição e Alta Velocidade</div>
+                                    </div>
+                                </div>
+                                <span class="text-cyan-glow text-[10px]">● 100/100 Speed</span>
+                            </div>
+
+                            <div class="p-3 bg-obsidian-950/80 rounded-lg border border-cyan-glow/20 flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded bg-cyan-glow/20 flex items-center justify-center text-cyan-glow">
+                                        <i class="fa-solid fa-headset text-sm"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-white font-semibold">Suporte Premium</div>
+                                        <div class="text-[10px] text-slate-400">Monitoramento 24h</div>
+                                    </div>
+                                </div>
+                                <span class="text-blue-400 text-[10px]">● Online</span>
+                            </div>
+                        </div>
+
+                        <!-- Gráfico flutuante do trecho de código inferior -->
+                        <div class="mt-4 p-3 bg-obsidian-900 rounded-lg text-[10px] font-mono text-cyan-glow/80 border border-cyan-glow/10">
+                            <code>&gt; nexora.deploySystem({ client: "SuaEmpresa", status: "READY" });</code>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+    </section>
+
+    <!-- SERVIÇOS -->
+    <section id="servicos" class="py-24 px-4 lg:px-12 relative bg-obsidian-900/80 border-t border-b border-cyan-glow/10">
+            <div class="max-w-7xl mx-auto">
+                
+                <!-- Título da Seção serviços -->
+                <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                    <span class="text-cyan-glow font-space text-xs uppercase tracking-widest px-3 py-1 rounded bg-cyan-glow/10 border border-cyan-glow/20">
+                        ECOSSISTEMA TECNOLÓGICO
+                    </span>
+                    <h2 class="font-syne text-3xl sm:text-5xl font-bold text-white mt-4 mb-4">
+                        Soluções sob medida para o crescimento do seu negócio
+                    </h2>
+                    <p class="text-slate-400 font-sans text-sm sm:text-base">
+                        Combinamos design futurista, engenharia de software avançada e suporte contínuo para garantir resultados reais.
+                    </p>
+                </div>
+
+                <!-- Grade de Serviços -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    
+                    <!-- Serviço 1: Websites -->
+                    <div class="glass-card p-8 rounded-2xl flex flex-col justify-between group reveal">
+                        <div>
+                            <div class="w-14 h-14 rounded-xl bg-cyan-glow/10 border border-cyan-glow/30 flex items-center justify-center text-cyan-glow text-2xl mb-6 group-hover:bg-cyan-glow group-hover:text-obsidian-950 transition-all duration-300">
+                                <i class="fa-solid fa-laptop-code"></i>
+                            </div>
+                            <h3 class="font-syne font-bold text-xl text-white mb-3">Websites Profissionais</h3>
+                            <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                                Landing Pages, Sites Institucionais e E-commerces ultra velozes, otimizados para motores de busca (SEO) e conversão de clientes.
+                            </p>
+                        </div>
+                        <ul class="text-xs text-slate-300 font-space space-y-2 border-t border-cyan-glow/10 pt-4">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-glow"></i> UI/UX Futurista & Responsivo</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-glow"></i> Otimização Google Rank #1</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-glow"></i> Integração com WhatsApp/CRM</li>
+                        </ul>
+                    </div>
+
+                    <!-- Serviço 2: Cardapios QR  -->
+                    <div class="glass-card p-8 rounded-2xl flex flex-col justify-between group reveal">
+                        <div>
+                            <div class="w-14 h-14 rounded-xl bg-cyan-glow/10 border border-cyan-glow/30 flex items-center justify-center text-cyan-glow text-2xl mb-6 group-hover:bg-cyan-glow group-hover:text-obsidian-950 transition-all duration-300">
+                                <i class="fa-solid fa-qrcode"></i>
+                            </div>
+                            <h3 class="font-syne font-bold text-xl text-white mb-3">Cardápios QR Code</h3>
+                            <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                                Cardápios digitais interativos para restaurantes e bares.
+                            </p>
+                        </div>
+                        <ul class="text-xs text-slate-300 font-space space-y-2 border-t border-cyan-glow/10 pt-4">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-glow"></i> Sem comissão sobre pedidos</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-glow"></i> Atualização instantânea (Plano de manutenção)</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-glow"></i> QR Code personalizado</li>
+                        </ul>
+                    </div>
+
+                    <!-- Serviço 3: Automações -->
+                    <div class="glass-card p-8 rounded-2xl flex flex-col justify-between group reveal">
+                        <div>
+                            <div class="w-14 h-14 rounded-xl bg-cyan-glow/10 border border-cyan-glow/30 flex items-center justify-center text-cyan-glow text-2xl mb-6 group-hover:bg-cyan-glow group-hover:text-obsidian-950 transition-all duration-300">
+                                <i class="fa-solid fa-microchip"></i>
+                            </div>
+                            <h3 class="font-syne font-bold text-xl text-white mb-3">Automação de Processos</h3>
+                            <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                                Elimine o trabalho manual e erros de digitação. Desenvolvemos robôs e integrações sob medida que sincronizam seu catálogo, estoque e preços em tempo real entre ERPs, E-commerces e Marketplaces. Escale suas vendas enquanto nosso sistema trabalha 24/7 por você.
+                            </p>
+                        </div>
+                        <ul class="text-xs text-slate-300 font-space space-y-2 border-t border-cyan-glow/10 pt-4">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-glow"></i> Sincronização em tempo real</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-glow"></i> Enriquecimento de catálogos</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-glow"></i> Zero falhas Humanas</li>
+                        </ul>
+                    </div>
+
+                    <!-- Serviço 4: Suporte Tecnico -->
+                    <div class="glass-card p-8 rounded-2xl flex flex-col justify-between group reveal">
+                        <div>
+                            <div class="w-14 h-14 rounded-xl bg-cyan-glow/10 border border-cyan-glow/30 flex items-center justify-center text-cyan-glow text-2xl mb-6 group-hover:bg-cyan-glow group-hover:text-obsidian-950 transition-all duration-300">
+                                <i class="fa-solid fa-headset"></i>
+                            </div>
+                            <h3 class="font-syne font-bold text-xl text-white mb-3">Suporte & Manutenção</h3>
+                            <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                                Acompanhamento contínuo de servidores, segurança da informação, correções de bugs, backups diários e canal direto via WhatsApp, Discord.
+                            </p>
+                        </div>
+                        <ul class="text-xs text-slate-300 font-space space-y-2 border-t border-cyan-glow/10 pt-4">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-glow"></i> Monitoramento de Servidores 24/7</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-glow"></i> Backups e Firewall Ativo</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-glow"></i> Atendimento Prioritário a clientes VIP</li>
+                        </ul>
+                    </div>
+
+                </div>
+
+            </div>
+    </section>
+
+    <!-- Seção modelos e catalogo -->
+    <section id="catalogo" class="py-24 px-4 lg:px-12 relative">
+            <div class="max-w-7xl mx-auto">
+                
+                <!-- cabeçalho da seção -->
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 reveal">
+                    <div>
+                        <span class="text-cyan-glow font-space text-xs uppercase tracking-widest px-3 py-1 rounded bg-cyan-glow/10 border border-cyan-glow/20">
+                            VITRINE INTERATIVA
+                        </span>
+                        <h2 class="font-syne text-3xl sm:text-5xl font-bold text-white mt-4">
+                            Catálogo de Modelos & Protótipos
+                        </h2>
+                    </div>
+                    <p class="text-slate-400 font-sans text-sm max-w-md mt-4 md:mt-0">
+                        Explore modelos pré-projetados com visual inovador.</br> Clique para visualizar os detalhes.
+                    </p>
+                </div>
+
+                <!-- filtro das tabelas -->
+                <div class="flex flex-wrap gap-3 mb-10 reveal" id="catalog-filters">
+                    <button data-filter="all" class="filter-btn active px-5 py-2.5 rounded-lg bg-cyan-glow text-obsidian-950 font-space font-semibold text-xs uppercase tracking-wider transition-all">
+                        Todos os Modelos
+                    </button>
+                    <button data-filter="website" class="filter-btn px-5 py-2.5 rounded-lg glass-panel text-slate-300 hover:text-cyan-glow font-space font-semibold text-xs uppercase tracking-wider transition-all">
+                        Websites Profissionais
+                    </button>
+                    <button data-filter="cardapio" class="filter-btn px-5 py-2.5 rounded-lg glass-panel text-slate-300 hover:text-cyan-glow font-space font-semibold text-xs uppercase tracking-wider transition-all">
+                        Cardápios QR Code
+                    </button>
+                    <button data-filter="software" class="filter-btn px-5 py-2.5 rounded-lg glass-panel text-slate-300 hover:text-cyan-glow font-space font-semibold text-xs uppercase tracking-wider transition-all">
+                        Dashboards & Softwares
+                    </button>
+                </div>
+
+                <!-- Catalogo grade -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="catalog-grid">
+                    
+                    <!-- Card 1: Cardápio QR -->
+                    <div class="catalog-item glass-card rounded-2xl overflow-hidden flex flex-col group reveal" data-category="cardapio">
+                        <div class="relative h-52 bg-slate-900 overflow-hidden flex items-center justify-center p-4">
+                            <!-- Representação de mockup com pré-visualização de fundo -->
+                            <div class="w-full h-full rounded-lg bg-gradient-to-br from-amber-950/40 to-obsidian-950 p-4 border border-amber-500/20 flex flex-col justify-between">
+                                <div class="flex justify-between items-center text-amber-400 font-syne text-xs font-bold">
+                                    <span>NEXORA CARDÁPIOS</span>
+                                    <i class="fa-solid fa-qrcode text-lg"></i>
+                                </div>
+                                <div class="space-y-2">
+                                    <div class="h-3 w-3/4 bg-amber-500/20 rounded"></div>
+                                    <div class="h-2 w-1/2 bg-amber-500/10 rounded"></div>
+                                </div>
+                                <div class="flex justify-between items-center text-[10px] text-amber-200">
+                                    <span>Seu produto aqui!</span>
+                                    <span class="font-bold text-amber-400">R$ 89,00</span>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="p-6 flex-1 flex flex-col justify-between">
+                            <div>
+                                <span class="text-[10px] font-space text-cyan-glow uppercase tracking-wider">Gastronomia / QR Code</span>
+                                <h3 class="font-syne font-bold text-lg text-white mt-1 mb-2">Cardápio Digital Premium QR</h3>
+                                <p class="text-slate-400 text-xs leading-relaxed mb-4">
+                                    Interface ultrafast para restaurantes de alto padrão. </br> Fotos em alta resolução, chamada de garçom e comanda integrada.
+                                </p>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                    <!-- Card 2: WEB design -->
+                    <div class="catalog-item glass-card rounded-2xl overflow-hidden flex flex-col group reveal" data-category="website">
+                        <div class="relative h-52 bg-slate-900 overflow-hidden flex items-center justify-center p-4">
+                            <div class="w-full h-full rounded-lg bg-gradient-to-br from-cyan-950/40 to-obsidian-950 p-4 border border-cyan-500/20 flex flex-col justify-between">
+                                <div class="flex justify-between items-center text-cyan-400 font-syne text-xs font-bold">
+                                    <span>NEXORA WEB DESIGN</span>
+                                    <i class="fa-solid fa-rocket"></i>
+                                </div>
+                                <div class="text-center my-auto">
+                                    <span class="text-white font-syne font-bold text-sm block">Acelere Suas Vendas</span>
+                                    <span class="text-[9px] text-cyan-300">Design de Alta Conversão</span>
+                                </div>
+                                <div class="h-6 w-full rounded bg-cyan-glow/20 flex items-center justify-center text-[9px] text-cyan-glow font-bold">
+                                    COMPRE JÁ!
+                                </div>
+                            </div>
+                           
+                        </div>
+                        <div class="p-6 flex-1 flex flex-col justify-between">
+                            <div>
+                                <span class="text-[10px] font-space text-cyan-glow uppercase tracking-wider">Website / Landing Page</span>
+                                <h3 class="font-syne font-bold text-lg text-white mt-1 mb-2">Landing Page Conversão SaaS</h3>
+                                <p class="text-slate-400 text-xs leading-relaxed mb-4">
+                                    Landing pages e websites para empresas de todos os segmentos.</br> Animações fluidas e otimização para captação de leads.
+                                </p>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                    <!-- Card 3: NEXORA SYNC -->
+                    <div class="catalog-item glass-card rounded-2xl overflow-hidden flex flex-col group reveal" data-category="software">
+                        <div class="relative h-52 bg-slate-900 overflow-hidden flex items-center justify-center p-4">
+                            <div class="w-full h-full rounded-lg bg-gradient-to-br from-purple-950/40 to-obsidian-950 p-4 border border-purple-500/20 flex flex-col justify-between">
+                                <div class="flex justify-between items-center text-purple-400 font-syne text-xs font-bold">
+                                    <span>NEXORA SYNC</span>
+                                    <i class="fa-solid fa-chart-line"></i>
+                                </div>
+                                <div class="grid grid-cols-2 gap-2 my-auto">
+                                    <div class="bg-purple-900/30 p-2 rounded text-[9px] text-purple-200">
+                                        Faturamento Diário<br/><b class="text-white">R$ 71.811</b>
+                                    </div>
+                                    <div class="bg-purple-900/30 p-2 rounded text-[9px] text-purple-200">
+                                        Vendas Finalizadas<br/><b class="text-white">1.840 </b>
+                                    </div>
+                                </div>
+                                <div class="h-2 bg-purple-500/30 rounded-full overflow-hidden">
+                                    <div class="w-3/4 h-full bg-purple-400"></div>
+                                </div>
+                            </div>
+                           
+                        </div>
+                        <div class="p-6 flex-1 flex flex-col justify-between">
+                            <div>
+                                <span class="text-[10px] font-space text-cyan-glow uppercase tracking-wider">Automação de Catálogos & Estoque</span>
+                                <h3 class="font-syne font-bold text-lg text-white mt-1 mb-2">Automação de Produtos Omnichannel</h3>
+                                <p class="text-slate-400 text-xs leading-relaxed mb-4">
+                                    Acelere a operação do seu e-commerce com engenharia de dados avançada. Criamos scripts e APIs customizadas que rodam direto na nuvem, garantindo que seu fluxo de produtos seja 100% autônomo.
+                                </p>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                    <!-- Card 4: NEXORA STORE -->
+                    <div class="catalog-item glass-card rounded-2xl overflow-hidden flex flex-col group reveal" data-category="website">
+                        <div class="relative h-52 bg-slate-900 overflow-hidden flex items-center justify-center p-4">
+                            <div class="w-full h-full rounded-lg bg-gradient-to-br from-emerald-950/40 to-obsidian-950 p-4 border border-emerald-500/20 flex flex-col justify-between">
+                                <div class="flex justify-between items-center text-emerald-400 font-syne text-xs font-bold">
+                                    <span>NEXORA STORE</span>
+                                    <i class="fa-solid fa-cart-shopping"></i>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded bg-emerald-500/20 border border-emerald-400/30 flex items-center justify-center">
+                                        <i class="fa-solid fa-box text-emerald-400"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-white text-xs font-bold">Seu produto aqui!</div>
+                                        <div class="text-[10px] text-emerald-300">R$ 599,00 — Frete grátis</div>
+                                    </div>
+                                </div>
+                                <div class="h-5 bg-emerald-500/20 text-emerald-400 text-[9px] flex items-center justify-center rounded font-bold">
+                                    CHECKOUT TRANSPARENTE
+                                </div>
+                            </div>
+                        
+                        </div>
+                        <div class="p-6 flex-1 flex flex-col justify-between">
+                            <div>
+                                <span class="text-[10px] font-space text-cyan-glow uppercase tracking-wider">E-Commerce / Vendas</span>
+                                <h3 class="font-syne font-bold text-lg text-white mt-1 mb-2">Loja Virtual Ultra Otimizada</h3>
+                                <p class="text-slate-400 text-xs leading-relaxed mb-4">
+                                    E-commerce moderno com carregamento instantâneo, gateway de pagamento PIX/Cartão integrados e cálculo de frete inteligente.
+                                </p>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                    <!-- Card 5: NEXORA SAUDE -->
+                    <div class="catalog-item glass-card rounded-2xl overflow-hidden flex flex-col group reveal" data-category="website">
+                        <div class="relative h-52 bg-slate-900 overflow-hidden flex items-center justify-center p-4">
+                            <div class="w-full h-full rounded-lg bg-gradient-to-br from-blue-950/40 to-obsidian-950 p-4 border border-blue-500/20 flex flex-col justify-between">
+                                <div class="flex justify-between items-center text-blue-400 font-syne text-xs font-bold">
+                                    <span>NEXORA SAÚDE</span>
+                                    <i class="fa-solid fa-notes-medical"></i>
+                                </div>
+                                <div class="space-y-1">
+                                    <span class="text-white text-xs font-bold block">Agendamento Online</span>
+                                    <span class="text-[10px] text-blue-300 block">Integração Google Calendar & WhatsApp</span>
+                                </div>
+                                <div class="px-3 py-1 bg-blue-500/20 text-blue-300 text-[9px] rounded text-center">
+                                    SISTEMA DE CONSULTAS
+                                </div>
+                            </div>
+                        
+                        </div>
+                        <div class="p-6 flex-1 flex flex-col justify-between">
+                            <div>
+                                <span class="text-[10px] font-space text-cyan-glow uppercase tracking-wider">Saúde & Clínicas</span>
+                                <h3 class="font-syne font-bold text-lg text-white mt-1 mb-2">Portal Clínico & Agendamento</h3>
+                                <p class="text-slate-400 text-xs leading-relaxed mb-4">
+                                    Site para médicos, dentistas e clínicas especializadas com agendamento direto de consultas, histórico de procedimentos e depoimentos.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+    </section>
+
+    <!-- Calculadora de orçamento interativa e simulador de projetos -->
+    <section id="orcamento" class="py-24 px-4 lg:px-12 relative bg-obsidian-900/60 border-t border-b border-cyan-glow/10">
+            <div class="max-w-7xl mx-auto">
+                
+                <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                    <span class="text-cyan-glow font-space text-xs uppercase tracking-widest px-3 py-1 rounded bg-cyan-glow/10 border border-cyan-glow/20">
+                        SIMULADOR EM TEMPO REAL
+                    </span>
+                    <h2 class="font-syne text-3xl sm:text-5xl font-bold text-white mt-4 mb-4">
+                        Calcule a Estimativa do Seu Projeto
+                    </h2>
+                    <p class="text-slate-400 font-sans text-sm sm:text-base">
+                        Selecione as funcionalidades necessárias e gere instantaneamente um escopo personalizado para envio à nossa equipe técnica.
+                    </p>
+                </div>
+
+                <!-- Grade da calculadora -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                    
+                    <!-- outras opções para selecionar -->
+                    <div class="lg:col-span-7 glass-panel p-6 sm:p-8 rounded-2xl space-y-6 reveal">
+                        
+                        <!-- Etapa 1: Tipo Base -->
+                        <div>
+                            <label class="block font-syne font-bold text-white text-base mb-3">1. Tipo Principal de Projeto</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3" id="calc-project-type">
+                                <button data-type="website" data-price="799" data-time="7" class="calc-type-btn active p-4 rounded-xl border border-cyan-glow bg-cyan-glow/10 text-left transition-all">
+                                    <i class="fa-solid fa-laptop-code text-cyan-glow text-xl mb-2"></i>
+                                    <div class="text-white font-bold text-sm">Website</div>
+                                    <div class="text-[10px] text-slate-400">Institucional / Landing Page</div>
+                                </button>
+                                <button data-type="cardapio" data-price="249" data-time="4" class="calc-type-btn p-4 rounded-xl border border-cyan-glow/20 bg-obsidian-950 text-left hover:border-cyan-glow/50 transition-all">
+                                    <i class="fa-solid fa-qrcode text-cyan-glow text-xl mb-2"></i>
+                                    <div class="text-white font-bold text-sm">Cardápio QR</div>
+                                    <div class="text-[10px] text-slate-400">Digital Interativo</div>
+                                </button>
+                                <button data-type="software" data-price="2999" data-time="30" class="calc-type-btn p-4 rounded-xl border border-cyan-glow/20 bg-obsidian-950 text-left hover:border-cyan-glow/50 transition-all">
+                                    <i class="fa-solid fa-gears text-cyan-glow text-xl mb-2"></i>
+                                    <div class="text-white font-bold text-sm">Automação de processos</div>
+                                    <div class="text-[10px] text-slate-400">N8N</div>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Passo 2: Complementos e recursos -->
+                        <div>
+                            <label class="block font-syne font-bold text-white text-base mb-3">2. Recursos Adicionais Opcionais</label>
+                            <div class="space-y-3" id="calc-addons">
+                                
+                                <label class="flex items-center justify-between p-3.5 rounded-xl border border-cyan-glow/15 bg-obsidian-950 cursor-pointer hover:border-cyan-glow/40 transition-all">
+                                    <div class="flex items-center gap-3">
+                                        <input type="checkbox" data-price="149" data-name="Painel Administrativo CMS" class="calc-addon-check accent-cyan-glow w-4 h-4 rounded">
+                                        <div>
+                                            <span class="text-sm text-white font-medium block">Hospedagem e Dominio</span>
+                                            <span class="text-[11px] text-slate-400">Dominio personalizado nas melhores plataformas de hospedagem</span>
+                                        </div>
+                                    </div>
+                                    <span class="text-xs font-space text-cyan-glow font-bold">R$ 149,00/Anual</span>
+                                </label>
+
+                                <label class="flex items-center justify-between p-3.5 rounded-xl border border-cyan-glow/15 bg-obsidian-950 cursor-pointer hover:border-cyan-glow/40 transition-all">
+                                    <div class="flex items-center gap-3">
+                                        <input type="checkbox" data-price="1499" data-name="Integração Pagamento Online (PIX/Cartão)" class="calc-addon-check accent-cyan-glow w-4 h-4 rounded">
+                                        <div>
+                                            <span class="text-sm text-white font-medium block">Integração de Pagamento PIX & Cartão</span>
+                                            <span class="text-[11px] text-slate-400">Receba pagamentos com confirmação automática</span>
+                                        </div>
+                                    </div>
+                                    <span class="text-xs font-space text-cyan-glow font-bold">R$ 1.499,00</span>
+                                </label>
+
+                                <label class="flex items-center justify-between p-3.5 rounded-xl border border-cyan-glow/15 bg-obsidian-950 cursor-pointer hover:border-cyan-glow/40 transition-all">
+                                    <div class="flex items-center gap-3">
+                                        <input type="checkbox" data-price="299" data-name="Otimização SEO Avançada Google" class="calc-addon-check accent-cyan-glow w-4 h-4 rounded">
+                                        <div>
+                                            <span class="text-sm text-white font-medium block">SEO Avançado para Busca Google</span>
+                                            <span class="text-[11px] text-slate-400">Indexação rápida e estrutura para topo do Google</span>
+                                        </div>
+                                    </div>
+                                    <span class="text-xs font-space text-cyan-glow font-bold">R$ 229,00</span>
+                                </label>
+
+                                <label class="flex items-center justify-between p-3.5 rounded-xl border border-cyan-glow/15 bg-obsidian-950 cursor-pointer hover:border-cyan-glow/40 transition-all">
+                                    <div class="flex items-center gap-3">
+                                        <input type="checkbox" data-price="149" data-name="Suporte Técnico VIP (Mensal)" class="calc-addon-check accent-cyan-glow w-4 h-4 rounded">
+                                        <div>
+                                            <span class="text-sm text-white font-medium block">Suporte Técnico VIP</span>
+                                            <span class="text-[11px] text-slate-400">Monitoramento 24/7</span>
+                                        </div>
+                                    </div>
+                                    <span class="text-xs font-space text-cyan-glow font-bold"> R$ 149,00 /mês</span>
+                                </label>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Cartão de resumo ao vivo certo -->
+                    <div class="lg:col-span-5 glass-panel p-6 sm:p-8 rounded-2xl border-cyan-glow/40 box-glow sticky top-28 reveal">
+                        <div class="flex items-center justify-between border-b border-cyan-glow/20 pb-4 mb-6">
+                            <h3 class="font-syne font-bold text-lg text-white">Resumo da Estimativa</h3>
+                            <span class="text-xs font-space px-2.5 py-1 rounded bg-cyan-glow/10 text-cyan-glow border border-cyan-glow/30">NEXORA QUOTE</span>
+                        </div>
+
+                        <div class="space-y-4 mb-6">
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-slate-400">Projeto Selecionado:</span>
+                                <span id="summary-project-name" class="text-white font-semibold">Website</span>
+                            </div>
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-slate-400">Recursos Adicionais:</span>
+                                <span id="summary-addons-count" class="text-cyan-glow font-semibold">0 selecionados</span>
+                            </div>
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-slate-400">Prazo Estimado:</span>
+                                <span id="summary-time" class="text-emerald-400 font-semibold font-space">~ 5 dias úteis</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-obsidian-950/80 p-5 rounded-xl border border-cyan-glow/20 mb-6">
+                            <span class="text-xs text-slate-400 block uppercase font-space">Investimento Estimado a partir de:</span>
+                            <div class="text-3xl sm:text-4xl font-space font-bold text-cyan-glow text-glow mt-1" id="summary-total-price">
+                                R$ 1.200,00
+                            </div>
+                            <span class="text-[10px] text-slate-400 block mt-1">* Condições facilitadas em até 12x ou desconto à vista no PIX.</span>
+                        </div>
+
+                        <button id="send-whatsapp-quote-btn" class="w-full py-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-obsidian-950 font-syne font-bold text-base flex items-center justify-center gap-3 transition-all duration-300 shadow-[0_0_20px_rgba(16,185,129,0.3)]">
+                            <i class="fa-brands fa-whatsapp text-xl"></i>
+                            <span>Enviar Proposta via WhatsApp</span>
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+    </section>
+
+    <!-- Stack Tecnológica e Garantia de Qualidade -->
+    <section id="diferenciais" class="py-24 px-4 lg:px-12 relative">
+            <div class="max-w-7xl mx-auto">
+                
+                <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                    <span class="text-cyan-glow font-space text-xs uppercase tracking-widest px-3 py-1 rounded bg-cyan-glow/10 border border-cyan-glow/20">
+                        ARQUITETURA & TECNOLOGIA
+                    </span>
+                    <h2 class="font-syne text-3xl sm:text-5xl font-bold text-white mt-4 mb-4">
+                        Por que escolher a NEXORA?
+                    </h2>
+                    <p class="text-slate-400 font-sans text-sm sm:text-base">
+                        Utilizamos as ferramentas mais modernas do mercado mundial para garantir que o seu projeto não fique ultrapassado.
+                    </p>
+                </div>
+
+                <!-- Carrossel / Grade de Selos de Tecnologia -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-16 reveal">
+                    <div class="glass-panel p-4 rounded-xl text-center border-cyan-glow/10 hover:border-cyan-glow/40 transition-all">
+                        <i class="fa-brands fa-react text-cyan-glow text-3xl mb-2"></i>
+                        <span class="block text-xs font-space text-white font-bold">React / Next.js</span>
+                        <span class="text-[10px] text-slate-400">Interface Ultra Fluida</span>
+                    </div>
+                    <div class="glass-panel p-4 rounded-xl text-center border-cyan-glow/10 hover:border-cyan-glow/40 transition-all">
+                        <i class="fa-brands fa-node-js text-emerald-400 text-3xl mb-2"></i>
+                        <span class="block text-xs font-space text-white font-bold">Node.js Engine</span>
+                        <span class="text-[10px] text-slate-400">Alta Velocidade</span>
+                    </div>
+                    <div class="glass-panel p-4 rounded-xl text-center border-cyan-glow/10 hover:border-cyan-glow/40 transition-all">
+                        <i class="fa-solid fa-shield-halved text-blue-400 text-3xl mb-2"></i>
+                        <span class="block text-xs font-space text-white font-bold">SSL & CyberSec</span>
+                        <span class="text-[10px] text-slate-400">Proteção Avançada</span>
+                    </div>
+                    <div class="glass-panel p-4 rounded-xl text-center border-cyan-glow/10 hover:border-cyan-glow/40 transition-all">
+                        <i class="fa-solid fa-cloud-bolt text-yellow-400 text-3xl mb-2"></i>
+                        <span class="block text-xs font-space text-white font-bold">Cloud CDN Global</span>
+                        <span class="text-[10px] text-slate-400">Carregamento Instantâneo</span>
+                    </div>
+                    <div class="glass-panel p-4 rounded-xl text-center border-cyan-glow/10 hover:border-cyan-glow/40 transition-all">
+                        <i class="fa-brands fa-python text-amber-300 text-3xl mb-2"></i>
+                        <span class="block text-xs font-space text-white font-bold">Python / AI</span>
+                        <span class="text-[10px] text-slate-400">Automação Inteligente</span>
+                    </div>
+                    <div class="glass-panel p-4 rounded-xl text-center border-cyan-glow/10 hover:border-cyan-glow/40 transition-all">
+                        <i class="fa-solid fa-database text-purple-400 text-3xl mb-2"></i>
+                        <span class="block text-xs font-space text-white font-bold">PostgreSQL / Redis</span>
+                        <span class="text-[10px] text-slate-400">Dados Seguros</span>
+                    </div>
+                </div>
+
+                <!-- Destaques dos Diferenciais -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="glass-card p-8 rounded-2xl reveal">
+                        <div class="text-cyan-glow font-space text-3xl font-bold mb-4">01.</div>
+                        <h3 class="font-syne font-bold text-xl text-white mb-2">Código Limpo & Sem Mensalidades Forçadas</h3>
+                        <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+                            O site/software é 100% seu. Não prendemos nossos clientes com contratos abusivos. Você tem total liberdade sobre o seu código fonte.
+                        </p>
+                    </div>
+                    <div class="glass-card p-8 rounded-2xl reveal">
+                        <div class="text-cyan-glow font-space text-3xl font-bold mb-4">02.</div>
+                        <h3 class="font-syne font-bold text-xl text-white mb-2">Painel de Controle Intuitivo</h3>
+                        <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+                            Altere preços de produtos, textos e fotos do seu site ou cardápio com poucos cliques no celular ou computador, sem complicações.
+                        </p>
+                    </div>
+                    <div class="glass-card p-8 rounded-2xl reveal">
+                        <div class="text-cyan-glow font-space text-3xl font-bold mb-4">03.</div>
+                        <h3 class="font-syne font-bold text-xl text-white mb-2">Atendimento Direto com Desenvolvedor</h3>
+                        <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+                            Sem robôs repetitivos ou chamados lentos. Seu suporte é direto no WhatsApp com a equipe técnica responsável pela criação do seu projeto.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+    </section>
+
+    <!-- seção de duvidas -->
+    <section id="faq" class="py-24 px-4 lg:px-12 relative bg-obsidian-900/80 border-t border-cyan-glow/10">
+            <div class="max-w-4xl mx-auto">
+                
+                <div class="text-center mb-16 reveal">
+                    <span class="text-cyan-glow font-space text-xs uppercase tracking-widest px-3 py-1 rounded bg-cyan-glow/10 border border-cyan-glow/20">
+                        ESCLAREÇA SUAS DÚVIDAS
+                    </span>
+                    <h2 class="font-syne text-3xl sm:text-5xl font-bold text-white mt-4">
+                        Perguntas Frequentes
+                    </h2>
+                </div>
+
+                <div class="space-y-4" id="faq-accordion">
+                    
+                    <!-- Item 1 -->
+                    <div class="glass-panel rounded-xl overflow-hidden reveal">
+                        <button class="faq-toggle w-full p-6 text-left flex justify-between items-center text-white font-syne font-bold text-base sm:text-lg focus:outline-none">
+                            <span>Como funciona o Cardápio QR Code? Preciso pagar taxa por pedido?</span>
+                            <i class="fa-solid fa-plus text-cyan-glow transition-transform duration-300"></i>
+                        </button>
+                        <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 px-6 bg-obsidian-950/40">
+                            <p class="text-slate-300 text-xs sm:text-sm py-4 leading-relaxed font-sans">
+                                Não cobramos nenhuma taxa ou comissão sobre os seus pedidos! Ao ler o Qr code o cliente tem acesso ao seu cardapio personalizado com produtos e valores de forma instantanea.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Item 2 -->
+                    <div class="glass-panel rounded-xl overflow-hidden reveal">
+                        <button class="faq-toggle w-full p-6 text-left flex justify-between items-center text-white font-syne font-bold text-base sm:text-lg focus:outline-none">
+                            <span>Qual o prazo médio de entrega de um Website ou E-commerce?</span>
+                            <i class="fa-solid fa-plus text-cyan-glow transition-transform duration-300"></i>
+                        </button>
+                        <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 px-6 bg-obsidian-950/40">
+                            <p class="text-slate-300 text-xs sm:text-sm py-4 leading-relaxed font-sans">
+                                Cardápios QR Code e Landing Pages costumam ser entregues entre 5 a 8 dias úteis. Websites institucionais e Lojas Virtuais dependem do nível de complexidade e módulo escolhido.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Item 3 -->
+                    <div class="glass-panel rounded-xl overflow-hidden reveal">
+                        <button class="faq-toggle w-full p-6 text-left flex justify-between items-center text-white font-syne font-bold text-base sm:text-lg focus:outline-none">
+                            <span>Vocês oferecem registro de domínio e hospedagem?</span>
+                            <i class="fa-solid fa-plus text-cyan-glow transition-transform duration-300"></i>
+                        </button>
+                        <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 px-6 bg-obsidian-950/40">
+                            <p class="text-slate-300 text-xs sm:text-sm py-4 leading-relaxed font-sans">
+                                Sim! Cuidamos de todo o processo burocrático: configuração do seu domínio personalizado (.com.br ou .com), certificado de segurança SSL grátis e hospedagem ultra rápida em nuvem com backup diário. Garantia do seu site no ar por 1 Ano.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Item 4 -->
+                    <div class="glass-panel rounded-xl overflow-hidden reveal">
+                        <button class="faq-toggle w-full p-6 text-left flex justify-between items-center text-white font-syne font-bold text-base sm:text-lg focus:outline-none">
+                            <span>Como funciona o Suporte Técnico após a entrega?</span>
+                            <i class="fa-solid fa-plus text-cyan-glow transition-transform duration-300"></i>
+                        </button>
+                        <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 px-6 bg-obsidian-950/40">
+                            <p class="text-slate-300 text-xs sm:text-sm py-4 leading-relaxed font-sans">
+                                Fornecemos garantia e suporte imediato pós-entrega. Caso queira um acompanhamento mensal contínuo para alterações de conteúdo, novos recursos e monitoramento de servidores, possuímos planos de manutenção VIP extremamente acessíveis e sem fidelidade abusiva!
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+    </section>
+
+    <!-- seção de contato (DESATIVADA TEMPORARIAMENTE)   -->
+   <!-- <section id="contato" class="py-24 px-4 lg:px-12 relative">
+            <form id="contact-form" class="space-y-4">
+    <div>
+        <label class="block font-space text-xs text-slate-300 uppercase mb-2">Seu Nome / Nome da Empresa</label>
+        <input type="text" id="lead-nome" required placeholder="Ex: Roberto Silva (Silva Tech)" class="w-full px-4 py-3 rounded-lg bg-obsidian-950 border border-cyan-glow/20 text-white placeholder-slate-500 focus:outline-none focus:border-cyan-glow transition-all font-sans text-sm">
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+            <label class="block font-space text-xs text-slate-300 uppercase mb-2">WhatsApp com DDD</label>
+            <input type="tel" id="lead-whatsapp" required placeholder="(00) 00000-0000" class="w-full px-4 py-3 rounded-lg bg-obsidian-950 border border-cyan-glow/20 text-white placeholder-slate-500 focus:outline-none focus:border-cyan-glow transition-all font-sans text-sm">
+        </div>
+        <div>
+            <label class="block font-space text-xs text-slate-300 uppercase mb-2">Interesse Principal</label>
+            <select id="lead-interesse" class="w-full px-4 py-3 rounded-lg bg-obsidian-950 border border-cyan-glow/20 text-white focus:outline-none focus:border-cyan-glow transition-all font-sans text-sm">
+                <option>Website / Landing Page</option>
+                <option>Cardápio QR Code</option>
+                <option>Automação n8n</option>
+                <option>Suporte Técnico VIP</option>
+            </select>
+        </div>
+    </div>
+
+    <div>
+        <label class="block font-space text-xs text-slate-300 uppercase mb-2">Detalhes do Projeto</label>
+        <textarea id="lead-detalhes" rows="4" placeholder="Conte-nos brevemente o que sua empresa precisa..." class="w-full px-4 py-3 rounded-lg bg-obsidian-950 border border-cyan-glow/20 text-white placeholder-slate-500 focus:outline-none focus:border-cyan-glow transition-all font-sans text-sm"></textarea>
+    </div>
+
+    <button type="submit" id="btn-enviar-form" class="w-full py-4 rounded-xl bg-cyan-glow text-obsidian-950 font-syne font-bold text-base hover:bg-white hover:shadow-[0_0_25px_rgba(0,229,255,0.7)] transition-all duration-300">
+        Enviar Mensagem à Equipe
+    </button>
+    <p id="form-status-msg" class="text-xs text-center text-emerald-400 hidden font-space pt-2">
+        ✓ Mensagem enviada com sucesso! Em breve a equipe irá entrar em contato.
+    </p>
+</form>
+    </section>-->
+    </main>
+
+    <!-- rodape -->
+    <footer class="bg-obsidian-950 border-t border-cyan-glow/15 py-12 px-4 lg:px-12 relative z-10 text-slate-400 font-sans text-xs">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+            
+            <div class="flex items-center gap-3">
+                <svg viewBox="0 0 100 100" class="w-8 h-8">
+                    <path d="M20,20 L20,80 L38,80 L38,40 L62,80 L80,80 L80,20 L62,20 L62,60 L38,20 Z" fill="none" stroke="#00E5FF" stroke-width="8"/>
+                </svg>
+                <div class="flex flex-col">
+                    <span class="font-syne font-bold text-white text-base">NEXORA (I.S.)</span>
+                    <span class="font-space text-[9px] text-cyan-glow tracking-widest uppercase">ENGINEERING THE FUTURE</span>
+                </div>
+            </div>
+
+            <div class="text-center md:text-right font-space text-slate-500 text-[11px]">
+                <p>Goiânia - Goiás / Brasil</p>
+                <p>CNPJ: 69.032.492/0001-01</p>
+                <p>&copy; 2026 NEXORA SOFTWARE. Todos os direitos reservados.</p>
+                <p class="mt-1">Sistemas de Alta Performance & Design de Elite.</p>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- Modal de Pré-visualização da Vitrine -->
+    <div id="modal-backdrop" class="fixed inset-0 bg-obsidian-950/80 backdrop-blur-md z-50 hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-4">
+        <div id="modal-container" class="glass-panel w-full max-w-3xl rounded-2xl overflow-hidden border-cyan-glow/50 box-glow transform scale-95 transition-transform duration-300 flex flex-col max-h-[90vh]">
+            
+            <!-- Modal Header -->
+            <div class="p-6 border-b border-cyan-glow/20 flex items-center justify-between bg-obsidian-900">
+                <div class="flex items-center gap-3">
+                    <div id="modal-badge-icon" class="w-8 h-8 rounded bg-cyan-glow/20 flex items-center justify-center text-cyan-glow">
+                        <i class="fa-solid fa-layer-group"></i>
+                    </div>
+                    <div>
+                        <h3 id="modal-title" class="font-syne font-bold text-white text-lg sm:text-xl">Título do Modelo</h3>
+                        <span id="modal-category" class="font-space text-[10px] text-cyan-glow uppercase tracking-wider">Categoria</span>
+                    </div>
+                </div>
+                <button onclick="closeModal()" class="w-8 h-8 rounded-full bg-obsidian-950 hover:bg-cyan-glow hover:text-obsidian-950 text-slate-400 transition-colors flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Conteúdo do corpo do modal -->
+            <div class="p-6 sm:p-8 overflow-y-auto space-y-6">
+                <!-- Exibição de Maquete Interativa Visual -->
+                <div id="modal-visual-stage" class="rounded-xl p-6 bg-obsidian-950 border border-cyan-glow/20 relative">
+                    <!-- Injetor Dinâmico de Mockups em JavaScript -->
+                </div>
+
+                <div>
+                    <h4 class="font-syne font-bold text-white text-base mb-2">Descrição & Diferenciais</h4>
+                    <p id="modal-description" class="text-slate-300 text-xs sm:text-sm leading-relaxed font-sans">
+                        Descrição detalhada do protótipo selecionado.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="font-syne font-bold text-white text-base mb-2">Recursos Inclusos</h4>
+                    <ul id="modal-features-list" class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-space text-slate-300">
+                        <!-- Itens de lista dinâmicos -->
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Rodapé do modal -->
+            <div class="p-6 border-t border-cyan-glow/20 bg-obsidian-900 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <div class="text-xs font-space text-slate-400">
+                    Prazo de Entrega Estimado: <b id="modal-delivery-time" class="text-cyan-glow">3 a 5 dias</b>
+                </div>
+                <a id="modal-whatsapp-link" href="#" target="_blank" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-cyan-glow text-obsidian-950 font-syne font-bold text-sm flex items-center justify-center gap-2 hover:bg-white transition-all">
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                    <span>Solicitar Este Modelo</span>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
