@@ -1,0 +1,21 @@
+User-agent: *
+Allow: /
+
+# Regras  Crawlers de IA
+User-agent: GPTBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+# Sinais de Conteúdo
+# Permite leitura para pesquisa, mas proíbe uso para treino
+Content-Signal: ai-train=no, search=yes, ai-input=yes
+
+Sitemap: https://gustavoresendedev.github.io/sitemap.xml
