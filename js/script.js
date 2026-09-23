@@ -404,9 +404,9 @@ calcTypeBtns.forEach((btn) => {
     currentBaseTime = parseInt(btn.getAttribute("data-time"));
 
     const typeKey = btn.getAttribute("data-type");
-    if (typeKey === "website") currentProjectName = "Website Profissional";
-    if (typeKey === "cardapio") currentProjectName = "Cardápio QR Code";
-    if (typeKey === "software") currentProjectName = "Software Customizado";
+    if (typeKey === "website") currentProjectName = "Website ";
+    if (typeKey === "cardapio") currentProjectName = "Cardápio";
+    if (typeKey === "automacao") currentProjectName = "Automação";
 
     updateCalculatorTotal();
   });
